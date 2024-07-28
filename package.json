@@ -1,10 +1,7 @@
 {
   "private": true,
   "name": "astro-bun",
-  "workspaces": [
-    "./package/",
-    "./playground/"
-  ],
+  "workspaces": ["./package/", "./playground/"],
   "packageManager": "bun@1.1.20",
   "scripts": {
     "build": "bun run --filter '*' build",

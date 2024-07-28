@@ -1,1 +1,1 @@
-export type CreateExportsEnum = "handle" | "running" | "start" | "stop";
+export type CreateExportsEnum = 'handle' | 'running' | 'start' | 'stop';

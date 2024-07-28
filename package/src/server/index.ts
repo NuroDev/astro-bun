@@ -1,18 +1,18 @@
 /// <reference types="astro/client" />
 
-import { App } from "astro/app";
+import { App } from 'astro/app';
 
-import { hostOptions, serveStaticFile } from "~/server/utils.ts";
+import { hostOptions, serveStaticFile } from '~/server/utils.ts';
 
-import type { SSRManifest } from "astro";
-import type { Server } from "bun";
+import type { SSRManifest } from 'astro';
+import type { Server } from 'bun';
 
-import type { Options } from "~/options.ts";
-import type { CreateExportsEnum } from "~/types.ts";
+import type { Options } from '~/options.ts';
+import type { CreateExportsEnum } from '~/types.ts';
 
 export function createExports(
   manifest: SSRManifest,
-  options: Options
+  options: Options,
 ): Record<CreateExportsEnum, unknown> {
   return {
     handle: handler(manifest, options),
@@ -32,15 +32,13 @@ export function start(manifest: SSRManifest, options: Options) {
   const logger = app.getAdapterLogger();
 
   const hostname = process.env.HOST ?? hostOptions(options.host);
-  const port = process.env.PORT
-    ? Number.parseInt(process.env.PORT)
-    : options.port;
+  const port = process.env.PORT ? Number.parseInt(process.env.PORT) : options.port;
 
   _server = Bun.serve({
     development: import.meta.env.DEV,
     error: (error) =>
       new Response(`<pre>${error}\n${error.stack}</pre>`, {
-        headers: { "Content-Type": "text/html" },
+        headers: { 'Content-Type': 'text/html' },
       }),
     fetch: handler(manifest, options),
     hostname,
@@ -52,19 +50,18 @@ export function start(manifest: SSRManifest, options: Options) {
     process.exit();
   }
 
-  process.on("SIGINT", exit);
-  process.on("SIGTERM", exit);
-  process.on("exit", exit);
+  process.on('SIGINT', exit);
+  process.on('SIGTERM', exit);
+  process.on('exit', exit);
 
   logger.info(`Server listening on ${_server.url.href}`);
 }
 
 function handler(
   manifest: SSRManifest,
-  options: Options
+  options: Options,
 ): (req: Request, server: Server) => Promise<Response> {
-  const clientRoot =
-    options.client ?? new URL("../client/", import.meta.url).href;
+  const clientRoot = options.client ?? new URL('../client/', import.meta.url).href;
 
   const app = new App(manifest);
 
@@ -76,10 +73,10 @@ function handler(
 
       // If the manifest asset doesn't exist, or the request url ends with a slash
       // we should serve the index.html file from the respective directory.
-      if (!manifestAssetExists || req.url.endsWith("/")) {
+      if (!manifestAssetExists || req.url.endsWith('/')) {
         const localPath = new URL(
           `./${app.removeBase(url.pathname)}/index.html`,
-          clientRoot
+          clientRoot,
         );
         return serveStaticFile(url.pathname, localPath, options);
       }

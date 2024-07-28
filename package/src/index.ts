@@ -1,39 +1,30 @@
-import {
-  createResolver,
-  defineIntegration,
-  watchDirectory,
-} from "astro-integration-kit";
-import { AstroError } from "astro/errors";
+import { createResolver, defineIntegration, watchDirectory } from 'astro-integration-kit';
+import { AstroError } from 'astro/errors';
 
-import { name as packageName } from "~/package.json";
-import { OptionsSchema } from "~/options.ts";
+import { name as packageName } from '~/package.json';
+import { OptionsSchema } from '~/options.ts';
 
-import type { AstroAdapter } from "astro";
+import type { AstroAdapter } from 'astro';
 
-import type { Options } from "~/options.ts";
-import type { CreateExportsEnum } from "~/types.ts";
+import type { Options } from '~/options.ts';
+import type { CreateExportsEnum } from '~/types.ts';
 
 export function getAdapter(args: Options = {}): AstroAdapter {
   return {
     args,
-    exports: [
-      "handle",
-      "running",
-      "start",
-      "stop",
-    ] satisfies Array<CreateExportsEnum>,
+    exports: ['handle', 'running', 'start', 'stop'] satisfies Array<CreateExportsEnum>,
     name: packageName,
     serverEntrypoint: `${packageName}/server.js`,
     supportedAstroFeatures: {
       assets: {
-        supportKind: "stable",
+        supportKind: 'stable',
         isSharpCompatible: true,
         isSquooshCompatible: true,
       },
-      envGetSecret: "experimental",
-      hybridOutput: "stable",
-      serverOutput: "stable",
-      staticOutput: "unsupported",
+      envGetSecret: 'experimental',
+      hybridOutput: 'stable',
+      serverOutput: 'stable',
+      staticOutput: 'unsupported',
     },
   };
 }
@@ -46,10 +37,10 @@ export default defineIntegration({
 
     return {
       hooks: {
-        "astro:config:setup": (params) => {
+        'astro:config:setup': (params) => {
           watchDirectory(params, resolve());
         },
-        "astro:config:done": (params) => {
+        'astro:config:done': (params) => {
           params.setAdapter(
             getAdapter({
               ...integration.options,
@@ -58,12 +49,12 @@ export default defineIntegration({
               host: params.config.server.host,
               port: params.config.server.port,
               server: params.config.build.server?.toString(),
-            })
+            }),
           );
 
-          if (params.config.output === "static")
+          if (params.config.output === 'static')
             throw new AstroError(
-              `Only \`output: "server"\` or \`output: "hybrid"\` is supported by this adapter.`
+              `Only \`output: "server"\` or \`output: "hybrid"\` is supported by this adapter.`,
             );
         },
       },
