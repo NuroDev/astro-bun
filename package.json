@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "name": "astro-bun",
+  "workspaces": [
+    "./package/"
+  ],
+  "packageManager": "bun@1.1.20",
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "check": "bun x @biomejs/biome check .",
+    "dev": "bun run --filter '*' dev",
+    "format": "bun x @biomejs/biome format --write .",
+    "lint": "bun x @biomejs/biome lint --write . --error-on-warnings",
+    "test": "bun run --filter '*' test",
+    "type-check": "bun x tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.8.3"
+  }
+}

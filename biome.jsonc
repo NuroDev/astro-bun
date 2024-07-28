@@ -1,0 +1,88 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "files": {
+    "include": ["./**/*.ts", "./**/*.json"],
+    "ignore": ["node_modules/", "bun.lockb", ".astro/"]
+  },
+  "formatter": {
+    "enabled": true,
+
+    "attributePosition": "multiline",
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineEnding": "lf",
+    "lineWidth": 90
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": true,
+
+      "arrowParentheses": "always",
+      "attributePosition": "multiline",
+      "bracketSameLine": true,
+      "bracketSpacing": true,
+      "jsxQuoteStyle": "single",
+      "quoteStyle": "single",
+      "semicolons": "always",
+      "trailingCommas": "all"
+    },
+    "globals": ["Astro"]
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+
+      "a11y": {
+        "all": true
+      },
+      "complexity": {
+        "all": true
+      },
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn"
+      },
+      "nursery": {
+        "all": true,
+        "noConsole": "off",
+        "noUndeclaredDependencies": "off",
+        "useSortedClasses": "warn"
+      },
+      "performance": {
+        "all": true,
+        "noBarrelFile": "off"
+      },
+      "security": {
+        "all": true
+      },
+      "style": {
+        "all": true,
+        "noDefaultExport": "off",
+        "useBlockStatements": "off",
+        "noNonNullAssertion": "off",
+        "useConsistentArrayType": {
+          "level": "warn",
+          "options": {
+            "syntax": "generic"
+          }
+        },
+        "useFilenamingConvention": "off",
+        "useNamingConvention": "off",
+        "useShorthandArrayType": "off"
+      },
+      "suspicious": {
+        "all": true,
+        "noConsoleLog": "off"
+      }
+    }
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true
+  }
+}
