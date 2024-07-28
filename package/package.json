@@ -13,6 +13,7 @@
   },
   "keywords": ["astro-adapter", "astro-integration", "withastro", "astro", "bun"],
   "homepage": "https://github.com/nurodev/astro-bun",
+  "files": ["dist"],
   "type": "module",
   "exports": {
     ".": {
