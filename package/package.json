@@ -1,7 +1,7 @@
 {
   "name": "@nurodev/astro-bun",
   "description": "An Astro adapter to deploy your SSR site to Bun targets",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "author": {
     "email": "ben@nuro.dev",
     "name": "Ben Dixon",
@@ -14,6 +14,9 @@
   "keywords": ["astro-adapter", "astro-integration", "withastro", "astro", "bun"],
   "homepage": "https://github.com/nurodev/astro-bun",
   "files": ["dist"],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
