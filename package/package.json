@@ -1,7 +1,7 @@
 {
   "name": "@nurodev/astro-bun",
   "description": "An Astro adapter to deploy your SSR site to Bun targets",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": {
     "email": "ben@nuro.dev",
     "name": "Ben Dixon",
