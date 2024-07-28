@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "name": "playground",
+  "type": "module",
+  "version": "0.1.1",
+  "scripts": {
+    "astro": "astro",
+    "build": "astro check && astro build",
+    "dev": "astro dev",
+    "start": "bun run ./dist/server/entry.mjs"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.8.3",
+    "@nurodev/astro-bun": "workspace:*",
+    "astro": "^4.12.2",
+    "typescript": "^5.5.4"
+  }
+}

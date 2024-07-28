@@ -1,0 +1,23 @@
+---
+export const prerender = false;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro + Bun | Server Rendered</title>
+  </head>
+  <body>
+    <h1>Astro + Bun | Server Rendered</h1>
+
+    <p>
+      <span>Page rendered at: </span>
+      <time datetime={new Date().toISOString()}>
+        {new Date().toISOString()}
+      </time>
+    </p>
+  </body>
+</html>
