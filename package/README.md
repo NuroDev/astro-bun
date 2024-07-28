@@ -37,7 +37,7 @@ export default defineConfig({
 {
 	"scripts": {
 -		"start": "astro dev"
-+   	"start": "bun run ./dist/server/entry.mjs"
++		"start": "bun run ./dist/server/entry.mjs"
 	}
 }
 ```
