@@ -1,8 +1,8 @@
 import { createResolver, defineIntegration, watchDirectory } from 'astro-integration-kit';
 import { AstroError } from 'astro/errors';
 
-import { name as packageName } from '~/package.json';
 import { OptionsSchema } from '~/options.ts';
+import { name as packageName } from '~/package.json';
 
 import type { AstroAdapter } from 'astro';
 
