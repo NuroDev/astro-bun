@@ -1,10 +1,26 @@
 import type { Options } from '~/types.ts';
 
-export function hostOptions(host: Options['host']): string | undefined {
+/**
+ * Extract the hostname from a provided string.
+ *
+ * @param host - The host string to extract the hostname from.
+ *
+ * @returns The hostname to pass to `Bun.serve`.
+ */
+export function extractHostname(host: Options['host']): string | undefined {
   if (typeof host === 'boolean') return host ? '0.0.0.0' : 'localhost';
   return host;
 }
 
+/**
+ * Serve a static file from the local filesystem.
+ *
+ * @param pathname - The pathname of the request.
+ * @param localPath - The local path to the file.
+ * @param options - The Astro options object.
+ *
+ * @returns A response object.
+ */
 export async function serveStaticFile(
   pathname: string,
   localPath: URL,

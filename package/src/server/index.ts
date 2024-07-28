@@ -2,7 +2,7 @@
 
 import { App } from 'astro/app';
 
-import { hostOptions, serveStaticFile } from '~/server/utils.ts';
+import { extractHostname, serveStaticFile } from '~/server/utils.ts';
 
 import type { SSRManifest } from 'astro';
 import type { Server } from 'bun';
@@ -30,7 +30,7 @@ export function start(manifest: SSRManifest, options: Options) {
   const app = new App(manifest);
   const logger = app.getAdapterLogger();
 
-  const hostname = process.env.HOST ?? hostOptions(options.host);
+  const hostname = process.env.HOST ?? extractHostname(options.host);
   const port = process.env.PORT ? Number.parseInt(process.env.PORT) : options.port;
 
   _server = Bun.serve({
