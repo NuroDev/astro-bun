@@ -1,4 +1,4 @@
-import type { Options } from '~/options.ts';
+import type { Options } from '~/types.ts';
 
 export function hostOptions(host: Options['host']): string | undefined {
   if (typeof host === 'boolean') return host ? '0.0.0.0' : 'localhost';

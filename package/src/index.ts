@@ -1,12 +1,12 @@
 import { createResolver, defineIntegration, watchDirectory } from 'astro-integration-kit';
 import { AstroError } from 'astro/errors';
 
-import { OptionsSchema } from '~/options.ts';
 import { name as packageName } from '~/package.json';
+import { OptionsSchema } from '~/validators';
 
 import type { AstroAdapter } from 'astro';
 
-import type { Options } from '~/options.ts';
+import type { Options } from '~/types.ts';
 import type { CreateExportsEnum } from '~/types.ts';
 
 export function getAdapter(args: Options = {}): AstroAdapter {

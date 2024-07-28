@@ -14,5 +14,3 @@ export const OptionsSchema = z
     server: z.string(),
   })
   .partial();
-
-export type Options = z.infer<typeof OptionsSchema>;

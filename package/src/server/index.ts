@@ -7,8 +7,7 @@ import { hostOptions, serveStaticFile } from '~/server/utils.ts';
 import type { SSRManifest } from 'astro';
 import type { Server } from 'bun';
 
-import type { Options } from '~/options.ts';
-import type { CreateExportsEnum } from '~/types.ts';
+import type { CreateExportsEnum, Options } from '~/types.ts';
 
 export function createExports(
   manifest: SSRManifest,
