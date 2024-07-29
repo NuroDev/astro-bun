@@ -1,4 +1,4 @@
-import { createResolver, defineIntegration, watchDirectory } from 'astro-integration-kit';
+import { defineIntegration } from 'astro-integration-kit';
 import { AstroError } from 'astro/errors';
 
 import { name as packageName } from '~/package.json';
@@ -32,32 +32,25 @@ export function getAdapter(args: Options = {}): AstroAdapter {
 export default defineIntegration({
   name: packageName,
   optionsSchema: OptionsSchema.optional(),
-  setup: (integration) => {
-    const { resolve } = createResolver(import.meta.url);
+  setup: (integration) => ({
+    hooks: {
+      'astro:config:done': (params) => {
+        params.setAdapter(
+          getAdapter({
+            ...integration.options,
+            assets: params.config.build.assets,
+            client: params.config.build.client?.toString(),
+            host: params.config.server.host,
+            port: params.config.server.port,
+            server: params.config.build.server?.toString(),
+          }),
+        );
 
-    return {
-      hooks: {
-        'astro:config:setup': (params) => {
-          watchDirectory(params, resolve());
-        },
-        'astro:config:done': (params) => {
-          params.setAdapter(
-            getAdapter({
-              ...integration.options,
-              assets: params.config.build.assets,
-              client: params.config.build.client?.toString(),
-              host: params.config.server.host,
-              port: params.config.server.port,
-              server: params.config.build.server?.toString(),
-            }),
+        if (params.config.output === 'static')
+          throw new AstroError(
+            `Only \`output: "server"\` or \`output: "hybrid"\` is supported by this adapter.`,
           );
-
-          if (params.config.output === 'static')
-            throw new AstroError(
-              `Only \`output: "server"\` or \`output: "hybrid"\` is supported by this adapter.`,
-            );
-        },
       },
-    };
-  },
+    },
+  }),
 });
