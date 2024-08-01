@@ -77,13 +77,13 @@ function handler(
           `./${app.removeBase(url.pathname)}/index.html`,
           clientRoot,
         );
-        return serveStaticFile(url.pathname, localPath, options);
+        return serveStaticFile(url.pathname, localPath, clientRoot, options);
       }
 
       // Otherwise we attempt to serve the static asset from the client directory.
       if (manifestAssetExists) {
         const localPath = new URL(app.removeBase(url.pathname), clientRoot);
-        return serveStaticFile(url.pathname, localPath, options);
+        return serveStaticFile(url.pathname, localPath, clientRoot, options);
       }
     }
 

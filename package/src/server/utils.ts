@@ -24,10 +24,28 @@ export function extractHostname(host: Options['host']): string | undefined {
 export async function serveStaticFile(
   pathname: string,
   localPath: URL,
+  clientRoot: string,
   options: Options,
 ): Promise<Response> {
   const file = Bun.file(localPath);
   const assetsPrefix = `/${options.assets}/`;
+
+  // If the file trying to be served does not exist,
+  // try to serve a 404.html file if it exists. Otherwise
+  // just return a default 404 response.
+  const fileExists = await file.exists();
+  if (!fileExists) {
+    const _404Path = new URL('./404.html', clientRoot);
+    const _404File = Bun.file(_404Path);
+    const _404FileExists = await _404File.exists();
+
+    const body = _404FileExists ? _404File : 'Not found';
+
+    return new Response(body, {
+      status: 404,
+      statusText: 'Not Found',
+    });
+  }
 
   const isImmutableAsset = (pathname: string) => pathname.startsWith(assetsPrefix);
   if (isImmutableAsset(pathname))
