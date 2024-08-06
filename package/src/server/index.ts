@@ -62,7 +62,8 @@ function handler(
   const app = new App(manifest);
 
   return (req: Request) => {
-    if (!app.match(req)) {
+    const routeData = app.match(req);
+    if (!routeData) {
       const url = new URL(req.url);
 
       const manifestAssetExists = manifest.assets.has(url.pathname);
@@ -84,6 +85,9 @@ function handler(
       }
     }
 
-    return app.render(req);
+    return app.render(req, {
+      addCookieHeader: true,
+      routeData,
+    });
   };
 }
