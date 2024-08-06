@@ -2,17 +2,22 @@ import { defineIntegration } from 'astro-integration-kit';
 import { AstroError } from 'astro/errors';
 
 import { name as packageName } from '~/package.json';
+import { CreateExportsEnum } from '~/types.ts';
 import { OptionsSchema } from '~/validators';
 
 import type { AstroAdapter } from 'astro';
 
 import type { Options } from '~/types.ts';
-import type { CreateExportsEnum } from '~/types.ts';
 
 export function getAdapter(args: Options = {}): AstroAdapter {
   return {
     args,
-    exports: ['handle', 'running', 'start', 'stop'] satisfies Array<CreateExportsEnum>,
+    exports: [
+      CreateExportsEnum.HANDLE,
+      CreateExportsEnum.RUNNING,
+      CreateExportsEnum.START,
+      CreateExportsEnum.STOP,
+    ] satisfies Array<CreateExportsEnum>,
     name: packageName,
     serverEntrypoint: `${packageName}/server.js`,
     supportedAstroFeatures: {

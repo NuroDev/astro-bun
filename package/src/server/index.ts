@@ -7,17 +7,14 @@ import { extractHostname, serveStaticFile } from '~/server/utils.ts';
 import type { SSRManifest } from 'astro';
 import type { Server } from 'bun';
 
-import type { CreateExportsEnum, Options } from '~/types.ts';
+import type { CreateExports, Options } from '~/types.ts';
 
-export function createExports(
-  manifest: SSRManifest,
-  options: Options,
-): Record<CreateExportsEnum, unknown> {
+export function createExports(manifest: SSRManifest, options: Options): CreateExports {
   return {
     handle: handler(manifest, options),
     running: () => _server !== null,
     start: () => start(manifest, options),
-    stop() {
+    stop: () => {
       if (!_server) return;
       _server.stop();
       _server = null;
