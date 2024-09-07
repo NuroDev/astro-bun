@@ -10,4 +10,5 @@ export default defineConfig(({ watch = false }) => ({
   format: 'esm',
   splitting: false,
   watch,
+  minify: !watch,
 }));
