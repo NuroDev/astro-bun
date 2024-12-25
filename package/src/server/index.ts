@@ -55,6 +55,10 @@ export function start(manifest: SSRManifest, options: Options): void {
       fetch: handler(manifest, options),
       hostname,
       port,
+      tls: {
+        key: env.TLS_KEY_PATH ? Bun.file(env.TLS_KEY_PATH) : undefined,
+        cert: env.TLS_CRT_PATH ? Bun.file(env.TLS_CRT_PATH) : undefined,
+      },
     });
 
     function exit(): void {
