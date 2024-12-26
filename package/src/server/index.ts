@@ -55,6 +55,10 @@ export function start(manifest: SSRManifest, options: Options): void {
       fetch: handler(manifest, options),
       hostname,
       port,
+      tls: {
+        cert: env.TLS_CERT_PATH ?? options.tls?.certPath,
+        key: env.TLS_KEY_PATH ?? options.tls?.keyPath,
+      },
     });
 
     function exit(): void {

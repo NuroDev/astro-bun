@@ -42,4 +42,18 @@ export interface Options {
   port?: z.infer<typeof OptionsSchema>['port'];
   /** TODO(@nurodev): Undocumented */
   server?: z.infer<typeof OptionsSchema>['server'];
+  tls?: {
+    /**
+     * A file-system path to the certificate file.
+     *
+     * This file should contain the contents of your private key.
+     */
+    certPath?: string;
+    /**
+     * A file-system path to the key file.
+     *
+     * This file should contain the contents of your issued certificate.
+     */
+    keyPath?: string;
+  };
 }
