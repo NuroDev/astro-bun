@@ -46,6 +46,9 @@ export function start(manifest: SSRManifest, options: Options): void {
     const app = new App(manifest);
     const logger = app.getAdapterLogger();
 
+    const tlsCertPath = env.TLS_CERT_PATH ?? options.tls?.certPath ?? null;
+    const tlsKeyPath = env.TLS_KEY_PATH ?? options.tls?.keyPath ?? null;
+
     _server = Bun.serve({
       development: import.meta.env.DEV,
       error: (error): Response =>
@@ -56,8 +59,8 @@ export function start(manifest: SSRManifest, options: Options): void {
       hostname,
       port,
       tls: {
-        cert: env.TLS_CERT_PATH ?? options.tls?.certPath,
-        key: env.TLS_KEY_PATH ?? options.tls?.keyPath,
+        cert: tlsCertPath ? Bun.file(tlsCertPath) : undefined,
+        key: tlsKeyPath ? Bun.file(tlsKeyPath) : undefined,
       },
     });
 
