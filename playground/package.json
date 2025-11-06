@@ -10,9 +10,12 @@
     "start": "bun run ./dist/server/entry.mjs"
   },
   "dependencies": {
-    "@astrojs/check": "^0.9.4",
+    "@astrojs/check": "^0.9.5",
     "@nurodev/astro-bun": "workspace:*",
-    "astro": "^5.1.1",
-    "typescript": "^5.7.2"
+    "astro": "^5.15.4",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "astro-integration-kit": "^0.19.1"
   }
 }
