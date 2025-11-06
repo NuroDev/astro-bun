@@ -45,10 +45,10 @@ export default function integration(options?: Options): AstroIntegration {
           getAdapter({
             ...parsedOptions.data,
             assets: params.config.build.assets,
-            client: params.config.build.client?.toString(),
+            client: params.config.build.client.href,
             host: params.config.server.host,
             port: params.config.server.port,
-            server: params.config.build.server?.toString(),
+            server: params.config.build.server.href,
           }),
         );
       },
