@@ -11,9 +11,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["astro-adapter", "astro-integration", "withastro", "astro", "bun"],
+  "keywords": [
+    "astro-adapter",
+    "astro-integration",
+    "withastro",
+    "astro",
+    "bun"
+  ],
   "homepage": "https://github.com/nurodev/astro-bun",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -31,7 +39,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
     "astro-integration-kit": "^0.18.0",
