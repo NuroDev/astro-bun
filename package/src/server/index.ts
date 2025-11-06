@@ -2,13 +2,10 @@
 
 import cluster from 'node:cluster';
 import os from 'node:os';
-
-import { App } from 'astro/app';
-
-import { extractHostname, serveStaticFile } from '~/server/utils';
-
 import type { SSRManifest } from 'astro';
+import { App } from 'astro/app';
 import type { Server } from 'bun';
+import { extractHostname, serveStaticFile } from '~/server/utils';
 
 import type { CreateExports, Options } from '~/types';
 
@@ -30,7 +27,7 @@ export function start(manifest: SSRManifest, options: Options): void {
   const { env } = process;
 
   const hostname = env.HOST ?? extractHostname(options.host);
-  const port = env.PORT ? Number.parseInt(env.PORT) : options.port;
+  const port = env.PORT ? Number.parseInt(env.PORT, 10) : options.port;
 
   if (cluster.isPrimary && options.cluster) {
     const numCPUs = os.cpus().length;
@@ -38,7 +35,6 @@ export function start(manifest: SSRManifest, options: Options): void {
       cluster.fork();
     }
     cluster.on('exit', (worker, _code, _signal) => {
-      // biome-ignore lint/suspicious/noConsole: Soft error logging
       console.warn(`Worker ${worker.process.pid} died`);
       cluster.fork();
     });

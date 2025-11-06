@@ -1,12 +1,9 @@
+import type { AstroAdapter, AstroIntegration } from 'astro';
 import { AstroError } from 'astro/errors';
-
 import { name as packageName } from '~/package.json';
 import { CreateExports } from '~/types';
-import { OptionsSchema } from '~/validators';
-
-import type { AstroAdapter, AstroIntegration } from 'astro';
-
 import type { Options } from '~/types.ts';
+import { OptionsSchema } from '~/validators';
 
 export function getAdapter(args: Options = {}): AstroAdapter {
   return {
@@ -43,7 +40,6 @@ export default function integration(options?: Options): AstroIntegration {
   return {
     name: packageName,
     hooks: {
-      // biome-ignore lint/nursery/useExplicitType: Parent inferred type.
       'astro:config:done': (params) => {
         params.setAdapter(
           getAdapter({
