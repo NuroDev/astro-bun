@@ -25,7 +25,7 @@ export function createExports(manifest: SSRManifest, options: Options): CreateEx
   };
 }
 
-let _server: Server | null = null;
+let _server: Server<undefined> | null = null;
 export function start(manifest: SSRManifest, options: Options): void {
   const { env } = process;
 
@@ -80,12 +80,12 @@ export function start(manifest: SSRManifest, options: Options): void {
 function handler(
   manifest: SSRManifest,
   options: Options,
-): (req: Request, server: Server) => Promise<Response> {
+): (req: Request, server: Server<undefined>) => Promise<Response> {
   const clientRoot = options.client ?? new URL('../client/', import.meta.url).href;
 
   const app = new App(manifest);
 
-  return (req: Request, server: Server): Promise<Response> => {
+  return (req: Request, server: Server<undefined>): Promise<Response> => {
     const routeData = app.match(req);
     if (!routeData) {
       const url = new URL(req.url);
