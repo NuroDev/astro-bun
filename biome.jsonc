@@ -11,9 +11,9 @@
     "includes": [
       "**/*.ts",
       "**/*.json",
-      "!**/node_modules/",
-      "!**/bun.lockb",
-      "!**/.astro/"
+      "!**/.astro/",
+      "!**/bun.lock",
+      "!**/node_modules/"
     ]
   },
   "formatter": {
