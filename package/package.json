@@ -38,8 +38,8 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@types/bun": "^1.1.14",
-    "tsup": "^8.3.5",
+    "tsdown": "^0.16.0",
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
