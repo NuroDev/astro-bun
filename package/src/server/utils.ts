@@ -47,7 +47,8 @@ export async function serveStaticFile(
     });
   }
 
-  const isImmutableAsset = (pathname: string) => pathname.startsWith(assetsPrefix);
+  const isImmutableAsset = (pathname: string): boolean =>
+    pathname.startsWith(assetsPrefix);
   if (isImmutableAsset(pathname))
     return new Response(file, {
       headers: {
