@@ -11,7 +11,7 @@ export const CreateExports = {
 } as const;
 
 export type CreateExports = {
-  [CreateExports.HANDLE]: (req: Request, server: Server) => Promise<Response>;
+  [CreateExports.HANDLE]: (req: Request, server: Server<undefined>) => Promise<Response>;
   [CreateExports.RUNNING]: () => boolean;
   [CreateExports.START]: () => void;
   [CreateExports.STOP]: () => void;
