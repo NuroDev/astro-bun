@@ -28,6 +28,7 @@ export function start(manifest: SSRManifest, options: Options): void {
 
   const hostname = env.HOST ?? extractHostname(options.host);
   const port = env.PORT ? Number.parseInt(env.PORT, 10) : options.port;
+  const unix = env.UNIX ?? options.unix;
 
   if (cluster.isPrimary && options.cluster) {
     const numCPUs = os.cpus().length;
@@ -52,12 +53,11 @@ export function start(manifest: SSRManifest, options: Options): void {
           headers: { 'Content-Type': 'text/html' },
         }),
       fetch: handler(manifest, options),
-      hostname,
-      port,
       tls: {
         cert: tlsCertPath ? Bun.file(tlsCertPath) : undefined,
         key: tlsKeyPath ? Bun.file(tlsKeyPath) : undefined,
       },
+      ...(unix ? { unix } : { hostname, port }),
     });
 
     function exit(): void {

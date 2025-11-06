@@ -84,4 +84,23 @@ export interface Options {
      */
     keyPath?: string;
   };
+
+  /**
+   * The path to the unix socket on which to host the server.
+   *
+   * This can provide better performance when Bun is running alongside
+   * a local reverse proxy that supports unix sockets.
+   *
+   * When a unix socket is provided, Bun does not bind to a TCP port,
+   * and the options and environment variables for the hostname and port
+   * are ignored.
+   *
+   * @example
+   * ```ts
+   * export default defineConfig({
+   *  adapter: bun({ unix: "/tmp/my-socket.sock" })
+   * });
+   * ```
+   */
+  unix?: z.infer<typeof OptionsSchema>['unix'];
 }

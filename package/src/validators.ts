@@ -14,5 +14,6 @@ export const OptionsSchema = z
         keyPath: z.string().optional(),
       })
       .optional(),
+    unix: z.string().optional(),
   })
   .partial();
