@@ -17,31 +17,59 @@ export type CreateExports = {
   [CreateExports.STOP]: () => void;
 };
 
-// export type Options = z.infer<typeof OptionsSchema>;
-
 export interface Options {
-  /** TODO(@nurodev): Undocumented */
-  assets?: z.infer<typeof OptionsSchema>['assets'];
-  /** TODO(@nurodev): Undocumented */
-  client?: z.infer<typeof OptionsSchema>['client'];
   /**
-   * Enable clustering for the server. (Only linux!)
+   * Name of the publicly exposed directory where all
+   * static assets are put.
+   *
+   * @default "_astro"
+   */
+  assets?: z.infer<typeof OptionsSchema>['assets'];
+
+  /**
+   * The full file URL to where astro is configured to put
+   * the client bundle and assets such as images, fonts,
+   * stylesheets, and static html.
+   *
+   * @default "<project root>/dist/client/"
+   */
+  client?: z.infer<typeof OptionsSchema>['client'];
+
+  /**
+   * Create a cluster of bun servers listening on the same port,
+   * and automatically load-balance incoming requests across them.
    *
    * @default false
+   *
+   * @example
+   * ```ts
+   * export default defineConfig({
+   *  adapter: bun({ cluster: true }),
+   * });
+   * ```
    */
   cluster?: z.infer<typeof OptionsSchema>['cluster'];
+
   /**
    * The hostname to serve the application on.
    */
   host?: z.infer<typeof OptionsSchema>['host'];
+
   /**
    * The port to serve the application on.
    *
    * @default 4321
    */
   port?: z.infer<typeof OptionsSchema>['port'];
-  /** TODO(@nurodev): Undocumented */
+
+  /**
+   * The full file URL to where astro is configured to put
+   * the server bundle.
+   *
+   * @default "<project root>/dist/server/"
+   */
   server?: z.infer<typeof OptionsSchema>['server'];
+
   tls?: {
     /**
      * A file-system path to the certificate file.
