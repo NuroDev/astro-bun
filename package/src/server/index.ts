@@ -4,13 +4,10 @@ import url from 'node:url';
 import { readdir } from 'node:fs/promises';
 import cluster from 'node:cluster';
 import os from 'node:os';
-
-import { App } from 'astro/app';
-
-import { extractHostname, serveStaticFile } from '~/server/utils';
-
 import type { SSRManifest } from 'astro';
+import { App } from 'astro/app';
 import type { Server } from 'bun';
+import { extractHostname, serveStaticFile } from '~/server/utils';
 
 import type { CreateExports, Options } from '~/types';
 
@@ -27,12 +24,13 @@ export function createExports(manifest: SSRManifest, options: Options): CreateEx
   };
 }
 
-let _server: Server | null = null;
+let _server: Server<undefined> | null = null;
 export function start(manifest: SSRManifest, options: Options): void {
   const { env } = process;
 
   const hostname = env.HOST ?? extractHostname(options.host);
-  const port = env.PORT ? Number.parseInt(env.PORT) : options.port;
+  const port = env.PORT ? Number.parseInt(env.PORT, 10) : options.port;
+  const unix = env.UNIX ?? options.unix;
 
   if (cluster.isPrimary && options.cluster) {
     const numCPUs = os.cpus().length;
@@ -40,13 +38,15 @@ export function start(manifest: SSRManifest, options: Options): void {
       cluster.fork();
     }
     cluster.on('exit', (worker, _code, _signal) => {
-      // biome-ignore lint/suspicious/noConsole: Soft error logging
       console.warn(`Worker ${worker.process.pid} died`);
       cluster.fork();
     });
   } else {
     const app = new App(manifest);
     const logger = app.getAdapterLogger();
+
+    const tlsCertPath = env.TLS_CERT_PATH ?? options.tls?.certPath ?? null;
+    const tlsKeyPath = env.TLS_KEY_PATH ?? options.tls?.keyPath ?? null;
 
     _server = Bun.serve({
       development: import.meta.env.DEV,
@@ -55,8 +55,11 @@ export function start(manifest: SSRManifest, options: Options): void {
           headers: { 'Content-Type': 'text/html' },
         }),
       fetch: handler(manifest, options),
-      hostname,
-      port,
+      tls: {
+        cert: tlsCertPath ? Bun.file(tlsCertPath) : undefined,
+        key: tlsKeyPath ? Bun.file(tlsKeyPath) : undefined,
+      },
+      ...(unix ? { unix } : { hostname, port }),
     });
 
     function exit(): void {
@@ -75,20 +78,20 @@ export function start(manifest: SSRManifest, options: Options): void {
 function handler(
   manifest: SSRManifest,
   options: Options,
-): (req: Request, server: Server) => Promise<Response> {
+): (req: Request, server: Server<undefined>) => Promise<Response> {
   const clientRoot = options.client ?? new URL('../client/', import.meta.url).href;
 
   const app = new App(manifest);
 
   // The dist may be copied somewhere after building.
   // The build environment's full client path (options.client) can't be relied on in production.
-  // `resolveClientDir()` finds the full path to the client directory in the current environment
+  // `resolveClientDir()` finds the full path to the client directory in the current environment.
   const clientDir = resolveClientDir(options);
 
   const clientAssetsPromise = getStaticAssets(clientDir);
   let clientAssets: Awaited<typeof clientAssetsPromise> | undefined;
 
-  return async (req: Request, server: Server): Promise<Response> => {
+  return async (req: Request, server: Server<undefined>): Promise<Response> => {
     const routeData = app.match(req);
     if (!routeData) {
       const url = new URL(req.url);

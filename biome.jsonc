@@ -1,8 +1,20 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.4/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
   "files": {
-    "include": ["./**/*.ts", "./**/*.json"],
-    "ignore": ["node_modules/", "bun.lockb", ".astro/"]
+    "includes": [
+      "**/*.ts",
+      "**/*.json",
+      "!**/.astro/",
+      "!**/bun.lock",
+      "!**/node_modules/"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -32,30 +44,17 @@
     "enabled": true,
     "rules": {
       "recommended": true,
-
-      "a11y": {
-        "all": true
-      },
-      "complexity": {
-        "all": true
-      },
       "correctness": {
         "noUnusedImports": "warn",
         "noUnusedVariables": "warn"
       },
       "nursery": {
-        "all": true,
         "useSortedClasses": "warn"
       },
       "performance": {
-        "all": true,
         "noBarrelFile": "off"
       },
-      "security": {
-        "all": true
-      },
       "style": {
-        "all": true,
         "noDefaultExport": "off",
         "useBlockStatements": "off",
         "noNonNullAssertion": "off",
@@ -66,17 +65,17 @@
           }
         },
         "useFilenamingConvention": "off",
-        "useNamingConvention": "off",
-        "useShorthandArrayType": "off"
+        "useNamingConvention": "off"
       },
       "suspicious": {
-        "all": true,
-        "noConsoleLog": "off"
+        "noConsole": {
+          "level": "off",
+          "options": {
+            "allow": ["log"]
+          }
+        }
       }
     }
-  },
-  "organizeImports": {
-    "enabled": true
   },
   "vcs": {
     "clientKind": "git",

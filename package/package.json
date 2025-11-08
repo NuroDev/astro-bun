@@ -1,7 +1,7 @@
 {
   "name": "@nurodev/astro-bun",
   "description": "An Astro adapter to deploy your SSR site to Bun targets",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "author": {
     "email": "ben@nuro.dev",
     "name": "Ben Dixon",
@@ -11,34 +11,44 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": ["astro-adapter", "astro-integration", "withastro", "astro", "bun"],
+  "keywords": [
+    "astro-adapter",
+    "astro-integration",
+    "withastro",
+    "astro",
+    "bun"
+  ],
   "homepage": "https://github.com/nurodev/astro-bun",
-  "files": ["dist"],
-  "main": "./dist/index.js",
-  "module": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.mts"
     },
     "./server.js": {
-      "import": "./dist/server.js",
+      "import": "./dist/server.mjs",
       "types": "./dist/server.d.ts"
     },
     "./package.json": "./package.json"
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch"
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "astro-integration-kit": "^0.18.0"
+    "astro-integration-kit": "^0.18.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/bun": "^1.1.14",
-    "tsup": "^8.3.5",
+    "tsdown": "^0.16.0",
     "typescript": "^5.7.2"
   },
   "peerDependencies": {
