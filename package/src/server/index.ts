@@ -124,7 +124,7 @@ function handler(
   };
 }
 
-async function getStaticAssets(clientDir: string) {
+async function getStaticAssets(clientDir: string): Promise<Set<string>> {
   const dirEntries = await readdir(clientDir, { withFileTypes: true, recursive: true });
   const publicPath = new Set<string>();
   for (const entry of dirEntries) {
@@ -142,7 +142,7 @@ async function getStaticAssets(clientDir: string) {
  * Copyright of withastro/adapters contributors, Reproduced under MIT License
  */
 // @ts-expect-error client and server fields are always present
-function resolveClientDir(options: InternalOptions) {
+function resolveClientDir(options: InternalOptions): string {
   const clientURLRaw = new URL(options.client);
   const serverURLRaw = new URL(options.server);
   const rel = path.relative(
@@ -150,7 +150,7 @@ function resolveClientDir(options: InternalOptions) {
     url.fileURLToPath(clientURLRaw),
   );
 
-  // walk up the parent folders until you find the one that is the root of the server entry folder. This is how we find the client folder relatively.
+  // Walk up the parent folders until you find the one that is the root of the server entry folder. This is how we find the client folder relatively.
   const serverFolder = path.basename(options.server);
   let serverEntryFolderURL = path.dirname(import.meta.url);
   while (!serverEntryFolderURL.endsWith(serverFolder)) {
@@ -163,10 +163,10 @@ function resolveClientDir(options: InternalOptions) {
   return client;
 }
 
-function prependForwardSlash(pth: string) {
+function prependForwardSlash(pth: string): string {
   return pth.startsWith('/') ? pth : '/' + pth;
 }
 
-function appendForwardSlash(pth: string) {
+function appendForwardSlash(pth: string): string {
   return pth.endsWith('/') ? pth : pth + '/';
 }
