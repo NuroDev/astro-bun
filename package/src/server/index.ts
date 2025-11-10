@@ -1,14 +1,16 @@
 /// <reference types="astro/client" />
-import path, { relative } from 'node:path';
-import url from 'node:url';
-import { readdir } from 'node:fs/promises';
+
 import cluster from 'node:cluster';
+import { readdir } from 'node:fs/promises';
 import os from 'node:os';
+import path from 'node:path';
+import url from 'node:url';
+
 import type { SSRManifest } from 'astro';
 import { App } from 'astro/app';
 import type { Server } from 'bun';
-import { extractHostname, serveStaticFile } from '~/server/utils';
 
+import { extractHostname, serveStaticFile } from '~/server/utils';
 import type { CreateExports, Options } from '~/types';
 
 export function createExports(manifest: SSRManifest, options: Options): CreateExports {
@@ -95,9 +97,8 @@ function handler(
     const routeData = app.match(req);
     if (!routeData) {
       const url = new URL(req.url);
-      const staticAssetExists = (clientAssets ??= await clientAssetsPromise).has(
-        url.pathname,
-      );
+      if (!clientAssets) clientAssets = await clientAssetsPromise;
+      const staticAssetExists = clientAssets.has(url.pathname);
 
       // If the manifest asset doesn't exist, or the request url ends with a slash
       // we should serve the index.html file from the respective directory.
@@ -128,9 +129,9 @@ async function getStaticAssets(clientDir: string): Promise<Set<string>> {
   const dirEntries = await readdir(clientDir, { withFileTypes: true, recursive: true });
   const publicPath = new Set<string>();
   for (const entry of dirEntries) {
-    if (entry.isFile() == false) continue;
+    if (entry.isFile() === false) continue;
     publicPath.add(
-      prependForwardSlash(path.relative(clientDir, entry.parentPath) + '/' + entry.name),
+      prependForwardSlash(`${path.relative(clientDir, entry.parentPath)}/${entry.name}`),
     );
   }
   return publicPath;
@@ -141,32 +142,31 @@ async function getStaticAssets(clientDir: string): Promise<Set<string>> {
  *
  * Copyright of withastro/adapters contributors, Reproduced under MIT License
  */
-// @ts-expect-error client and server fields are always present
-function resolveClientDir(options: InternalOptions): string {
-  const clientURLRaw = new URL(options.client);
-  const serverURLRaw = new URL(options.server);
+function resolveClientDir(options: Options): string {
+  const clientURLRaw = new URL(options.client!);
+  const serverURLRaw = new URL(options.server!);
   const rel = path.relative(
     url.fileURLToPath(serverURLRaw),
     url.fileURLToPath(clientURLRaw),
   );
 
   // Walk up the parent folders until you find the one that is the root of the server entry folder. This is how we find the client folder relatively.
-  const serverFolder = path.basename(options.server);
+  const serverFolder = path.basename(options.server!);
   let serverEntryFolderURL = path.dirname(import.meta.url);
   while (!serverEntryFolderURL.endsWith(serverFolder)) {
     serverEntryFolderURL = path.dirname(serverEntryFolderURL);
   }
 
-  const serverEntryURL = serverEntryFolderURL + '/entry.mjs';
+  const serverEntryURL = `${serverEntryFolderURL}/entry.mjs`;
   const clientURL = new URL(appendForwardSlash(rel), serverEntryURL);
   const client = url.fileURLToPath(clientURL);
   return client;
 }
 
 function prependForwardSlash(pth: string): string {
-  return pth.startsWith('/') ? pth : '/' + pth;
+  return pth.startsWith('/') ? pth : `/${pth}`;
 }
 
 function appendForwardSlash(pth: string): string {
-  return pth.endsWith('/') ? pth : pth + '/';
+  return pth.endsWith('/') ? pth : `${pth}/`;
 }
