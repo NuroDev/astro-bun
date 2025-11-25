@@ -42,14 +42,19 @@ export default function integration(options?: Options): AstroIntegration {
     hooks: {
       'astro:config:done': (params) => {
         params.setAdapter(
-          getAdapter({
-            ...parsedOptions.data,
-            assets: params.config.build.assets,
-            client: params.config.build.client.href,
-            host: params.config.server.host,
-            port: params.config.server.port,
-            server: params.config.build.server.href,
-          }),
+          getAdapter(
+            Object.assign(
+              {},
+              {
+                assets: params.config.build.assets,
+                client: params.config.build.client.href,
+                host: params.config.server.host,
+                port: params.config.server.port,
+                server: params.config.build.server.href,
+              },
+              parsedOptions.data,
+            ),
+          ),
         );
       },
     },
